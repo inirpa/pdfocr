@@ -4,11 +4,10 @@
 <script src="pdf.js"></script>
 <body>
 	<button type="button" id="to-ocr">To OCR</button>
-	<div id="op-canvas" style="display: block;"></div>
-	<input id='pdf' type='file'/>
-	<div id="page_num"> </div>
 	<div id="ocr_results"> ocr result </div>
 	<div id="ocr_status"> </div>	
+	<div id="op-canvas" style="display: block;"></div>
+	<input id='pdf' type='file'/>
 	<script type="text/javascript">
 
 		//
