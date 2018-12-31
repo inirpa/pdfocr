@@ -4,15 +4,18 @@
 <script src='tesseract.min.js'></script>
 <script src="pdf.js"></script>
 <body>
-	<button type="button" id="to-ocr">To OCR</button>
-	<div id="ocr_results"> ocr result </div>
-	<div id="ocr_status">
+	<div class="container">
+		<button type="button" id="to-ocr">To OCR</button>
+		<div id="page_status">
+			Page status : <span id="current_page">0</span> of <span id="total_page">0</span> completed.
+		</div>
+		<div id="ocr_status"></div>
+		<div class="progress">
+	  		<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+		</div>
+		<div id="op-canvas" style="display: block;"></div>
+		<input id='pdf' type='file' accept="application/pdf" />
 	</div>
-	<div class="progress">
-  		<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
-	</div>
-	<div id="op-canvas" style="display: block;"></div>
-	<input id='pdf' type='file'/>
 	<script type="text/javascript">
 
 		//
@@ -32,6 +35,7 @@
 				fileReader.onload = function(ev) {
 					PDFJS.getDocument(fileReader.result).then(function getPdfHelloWorld(pdf) {
 						totalPages = pdf.numPages;
+						$('#total_page').text(totalPages);
 						for (var i = 1; i <= totalPages; i++) {							
 							pdf.getPage(i).then(function getPageHelloWorld(page) {
 							var scale = 1.5;
@@ -67,17 +71,19 @@
 	</script>
 	<script type="text/javascript">
 		$(document).on('click','#to-ocr',function(){
-			$('.c_class').each(function(i, obj){
+			var cp = 1;
+			$('.c_class').each(function(i, obj){				
 				Tesseract.recognize(obj.toDataURL()).then(function(result) {
 					$.ajax({
 						method : 'POST',
 						url: "save.php",
 						data : {'ocr_text' : result.text},
 						success: function(result){
+							$('#current_page').text(cp++);
 						}
 					});
 				}).progress(function(result) {
-					document.getElementById("ocr_status").innerText = result["status"] + " (" +(result["progress"] * 100) + "%)";
+					document.getElementById("ocr_status").innerText = result["status"] + " (" +Math.floor(result["progress"] * 100) + "%)";
 					$('.progress-bar').css('width',Math.floor(result["progress"] * 100)+'%');
 				});
 			})
