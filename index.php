@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.1/processing-api.min.js"></script><html>
 <script src='tesseract.min.js'></script>
@@ -5,7 +6,11 @@
 <body>
 	<button type="button" id="to-ocr">To OCR</button>
 	<div id="ocr_results"> ocr result </div>
-	<div id="ocr_status"> </div>	
+	<div id="ocr_status">
+	</div>
+	<div class="progress">
+  		<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+	</div>
 	<div id="op-canvas" style="display: block;"></div>
 	<input id='pdf' type='file'/>
 	<script type="text/javascript">
@@ -73,6 +78,7 @@
 					});
 				}).progress(function(result) {
 					document.getElementById("ocr_status").innerText = result["status"] + " (" +(result["progress"] * 100) + "%)";
+					$('.progress-bar').css('width',Math.floor(result["progress"] * 100)+'%');
 				});
 			})
 		});
