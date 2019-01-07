@@ -15,6 +15,8 @@
 			</div>
 			<div id="op-canvas" style="display: block; margin-top: 20px;"></div>
 			<input id='pdf' type='file' class="form-control-file" accept="application/pdf" />
+			<input type="radio" name="language" value="eng" checked>English
+			<input type="radio" name="language" value="jpn">Japnese
 		</div>
 		<script type="text/javascript">
 
@@ -73,8 +75,9 @@
 		<script type="text/javascript">
 			$(document).on('click','#to-ocr',function(){
 				var cp = 1;
+				var lang = $("input[name='language']:checked"). val();
 				$('.c_class').each(function(i, obj){				
-					Tesseract.recognize(obj.toDataURL()).then(function(result) {
+					Tesseract.recognize(obj.toDataURL(), lang).then(function(result) {
 						$.ajax({
 							method : 'POST',
 							url: "save.php",
