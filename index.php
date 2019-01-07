@@ -81,7 +81,7 @@
 						$.ajax({
 							method : 'POST',
 							url: "save.php",
-							data : {'ocr_text' : result.text},
+							data : {'ocr_text' : result.text, 'file_name' : file.name},
 							success: function(result){
 								$('#current_page').text(cp++);
 							}
