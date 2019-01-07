@@ -6,6 +6,7 @@
 	<body>
 		<div class="container" style="padding: 30px;">
 			<button type="button" id="to-ocr" class="btn btn-primary d-none">To OCR</button>
+			<button type="button" id="to-file" class="btn btn-primary d-none">To File</button>
 			<div id="page_status">
 				Page status : <span id="current_page">0</span> of <span id="total_page">0</span> completed.
 			</div>
@@ -19,7 +20,7 @@
 			<input type="radio" name="language" value="jpn">Japnese
 		</div>
 		<script type="text/javascript">
-
+			var op_text = '';
 			//
 			// Disable workers to avoid yet another cross-origin issue (workers need the URL of
 			// the script to be loaded, and dynamically loading a cross-origin script does
@@ -33,6 +34,7 @@
 			var pdf = document.getElementById('pdf');
 			pdf.onchange = function(ev) {
 				$('#to-ocr').removeClass('d-none');
+				$('#to-file').removeClass('d-none');
 				if (file = document.getElementById('pdf').files[0]) {
 					fileReader = new FileReader();
 					fileReader.onload = function(ev) {
@@ -66,6 +68,7 @@
 						}
 						}, function(error){
 							console.log(error);
+
 						});
 					};
 					fileReader.readAsArrayBuffer(file);
@@ -76,22 +79,25 @@
 			$(document).on('click','#to-ocr',function(){
 				var cp = 1;
 				var lang = $("input[name='language']:checked"). val();
-				$('.c_class').each(function(i, obj){				
+				$('.c_class').each(function(i, obj){
 					Tesseract.recognize(obj.toDataURL(), lang).then(function(result) {
-						$.ajax({
-							method : 'POST',
-							url: "save.php",
-							data : {'ocr_text' : result.text, 'file_name' : file.name},
-							success: function(result){
-								$('#current_page').text(cp++);
-							}
-						});
+						op_text = op_text + result.text;
+						$('#current_page').text(cp++);
 					}).progress(function(result) {
 						document.getElementById("ocr_status").innerText = result["status"] + " (" +Math.floor(result["progress"] * 100) + "%)";
 						$('.progress-bar').css('width',Math.floor(result["progress"] * 100)+'%');
 					});
-				})
+				});
 			});
+			$(document).on('click','#to-file', function(){
+				$.ajax({
+					method : 'POST',
+					url: "save.php",
+					data : {'ocr_text' : op_text, 'file_name' : file.name},
+					success: function(result){
+					}
+				});
+			})
 		</script>
 	</body>
 </html>
