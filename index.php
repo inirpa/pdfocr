@@ -95,6 +95,10 @@
 					url: "save.php",
 					data : {'ocr_text' : op_text, 'file_name' : file.name},
 					success: function(result){
+						$('.c_class').each(function(i, obj){
+							$(this).remove();
+						});
+						op_text = '';
 					}
 				});
 			})
