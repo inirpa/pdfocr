@@ -3,9 +3,7 @@
 	<script src="jquery.min.js"></script>
 	<script src='tesseract.min.js'></script>
 	<script src="pdf.js"></script>
-	<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-	    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-
+	<script type="text/javascript" src="bootstrap.min.js"></script>	    
 	<body>
 		<div class="container" style="padding: 30px;">
 			<button type="button" id="to-ocr" class="btn btn-primary d-none">To OCR</button>
