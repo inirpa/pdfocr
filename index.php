@@ -3,6 +3,9 @@
 	<script src="jquery.min.js"></script>
 	<script src='tesseract.min.js'></script>
 	<script src="pdf.js"></script>
+	<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+
 	<body>
 		<div class="container" style="padding: 30px;">
 			<button type="button" id="to-ocr" class="btn btn-primary d-none">To OCR</button>
@@ -14,10 +17,10 @@
 			<div class="progress">
 		  		<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
 			</div>
-			<div id="op-canvas" style="display: block; margin-top: 20px;"></div>
 			<input id='pdf' type='file' class="form-control-file" accept="application/pdf" />
 			<input type="radio" name="language" value="eng" checked>English
 			<input type="radio" name="language" value="jpn">Japnese
+			<div id="op-canvas" style="display: block; margin-top: 20px;"></div>
 		</div>
 		<script type="text/javascript">
 			var op_text = '';
@@ -95,6 +98,7 @@
 					url: "save.php",
 					data : {'ocr_text' : op_text, 'file_name' : file.name},
 					success: function(result){
+						$('#myModal').modal('toggle');
 						$('.c_class').each(function(i, obj){
 							$(this).remove();
 						});
@@ -103,5 +107,39 @@
 				});
 			})
 		</script>
+
+
+
+
+
+
+		<!-- The Modal -->
+		<div class="modal" id="myModal">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+
+		      <!-- Modal Header -->
+		      <div class="modal-header">
+		        <h4 class="modal-title">Modal Heading</h4>
+		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		      </div>
+
+		      <!-- Modal body -->
+		      <div class="modal-body">
+		        <p id="#op_msg">Operation completed</p>
+		      </div>
+
+		      <!-- Modal footer -->
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+		      </div>
+
+		    </div>
+		  </div>
+		</div>
+
+
+
+
 	</body>
 </html>
