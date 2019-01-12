@@ -34,10 +34,11 @@
 			//
 			var pdf = document.getElementById('pdf');
 			pdf.onchange = function(ev) {
-				$('#to-ocr').removeClass('d-none');
+				// $('#to-ocr').removeClass('d-none');
 				$('#to-file').removeClass('d-none');
 				if (file = document.getElementById('pdf').files[0]) {
 					fileReader = new FileReader();
+					cop = 1;
 					fileReader.onload = function(ev) {
 						PDFJS.getDocument(fileReader.result).then(function getPdfHelloWorld(pdf) {
 							totalPages = pdf.numPages;
@@ -64,6 +65,9 @@
 								//
 								var task = page.render({canvasContext: context, viewport: viewport})
 								task.promise.then(function(){
+									if(cop==totalPages){
+										$('#to-ocr')[0].click();
+									}
 								});
 							});
 						}
